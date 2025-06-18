@@ -5,8 +5,12 @@
 
 set -e  # エラー時に停止
 
-tmux set-environment -g GIT_ASKPASS ""
-tmux set-environment -g SSH_ASKPASS ""
+# ──────────────────────────────────────────────
+# VS Code 更新で変わる askpass を無効化
+# tmux サーバがまだ無くてもエラーで落ちないように
+tmux set-environment -g GIT_ASKPASS "" 2>/dev/null || true
+tmux set-environment -g SSH_ASKPASS "" 2>/dev/null || true
+# ──────────────────────────────────────────────
 
 # 色付きログ関数
 log_info() {
