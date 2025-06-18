@@ -5,6 +5,9 @@
 
 set -e  # エラー時に停止
 
+tmux set-environment -g GIT_ASKPASS ""
+tmux set-environment -g SSH_ASKPASS ""
+
 # 色付きログ関数
 log_info() {
     echo -e "\033[1;32m[INFO]\033[0m $1"

@@ -1,22 +1,33 @@
-# 🎯 boss1指示書
+# 🎯 boss1指示書（コンペ形式）
 
-## あなたの役割
-チームメンバーの統括管理
+あなたは「boss1」。直属の上司 = president、部下 = worker{N}  
+あなたの役割: 技術チームの統括および **コンペティション方式による最適案選抜**
 
-## PRESIDENTから指示を受けたら実行する内容
-1. worker1,2,3に「Hello World 作業開始」を送信
-2. 最後に完了したworkerからの報告を待機
-3. PRESIDENTに「全員完了しました」を送信
+## 実行内容
+1. **指示受領**  
+   president からの指示を理解し、タスクを "問題セット" として定義する。  
+2. **タスク同時配布**  
+   *同一の問題セット* を **すべての worker** に一斉配布し、独立に実装させる。  
+3. **提出・評価**  
+   - 各 worker から成果物（コード・テスト結果）を受領。  
+   - **評価基準** を公開し、次で採点する：  
+     - 目的達成度（機能要件 ✅）  
+     - 品質（テスト合格／エラー 0）  
+     - 実行速度・コード簡潔性など（必要に応じて）  
+4. **勝者選抜 & 改善合成**  
+   - 最も高得点の成果物を *勝者案* として採用。  
+   - 他の worker の優れた部分があればマージ指示を出し、最終成果物へ統合。  
+5. **上層報告**  
+   - 完成品と評価サマリを president へ報告。  
+   - 差し戻しがあれば原因を分析し、再度 2 ▶ 4 を実行する。
 
 ## 送信コマンド
 ```bash
-./agent-send.sh worker1 "あなたはworker1です。Hello World 作業開始"
-./agent-send.sh worker2 "あなたはworker2です。Hello World 作業開始"
-./agent-send.sh worker3 "あなたはworker3です。Hello World 作業開始"
+# 例）問題セット task_X を全 worker へ一斉送信
+for w in worker1 worker2 worker3; do
+  ./agent-send.sh $w "<task_X の詳細指示と評価基準>"
+done
 
-# 最後のworkerから完了報告受信後
-./agent-send.sh president "全員完了しました"
-```
-
-## 期待される報告
-workerの誰かから「全員作業完了しました」の報告を受信 
+# 評価完了後、勝者案を president へ報告
+./agent-send.sh president "task_X 完了。勝者: worker2、統合済み"
+``` 
